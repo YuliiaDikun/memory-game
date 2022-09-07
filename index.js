@@ -2,53 +2,29 @@
 
 const CARDS = [
   {
-    id: 'branch',
+    number: 'cat1',
     src: './assets/img/cat1.png'
   },
   {
-    id: 'commit',
+    number: 'cat2',
     src: './assets/img/cat2.png',
   },
   {
-    id: 'compare',
+    number: 'cat3',
     src: './assets/img/cat3.png',
   },
   {
-    id: 'fork',
+    number: 'cat4',
     src: './assets/img/cat4.png',
   },
   {
-    id: 'merge',
+    number: 'cat5',
     src: './assets/img/cat5.png',
   },
   {
-    id: 'request',
+    number: 'cat6',
     src: './assets/img/cat6.png'
-  },
-  {
-    id: 'branch',
-    src: './assets/img/cat1.png'
-  },
-  {
-    id: 'commit',
-    src: './assets/img/cat2.png',
-  },
-  {
-    id: 'compare',
-    src: './assets/img/cat3.png',
-  },
-  {
-    id: 'fork',
-    src: './assets/img/cat4.png',
-  },
-  {
-    id: 'merge',
-    src: './assets/img/cat5.png',
-  },
-  {
-    id: 'request',
-    src: './assets/img/cat6.png'
-  }  
+  }
 ];
 
 const GAME_FIELD = document.querySelector('.game');
@@ -56,17 +32,20 @@ let hasFlipedCard = false;
 let boardLocked = false;
 let firstCard = null;
 let secondCard = null;
+let userCount = 0;
 
 function createCards (myCards) {  
-  const cards = myCards
+  const doubleCards = [...myCards, ...myCards];
+  const cards = doubleCards
   .sort(() => 0.5 - Math.random())
   .map((card) => 
-    `<div class="card" data-card="${card.id}">
+    `<div class="card" data-card="${card.number}">
         <img src="${card.src}" alt="" class="front">
         <img src="./assets/img/background.png" alt="" class="back">
       </div>`
   )
   .join('');
+
   GAME_FIELD.innerHTML = cards;
 }
 
@@ -75,7 +54,7 @@ createCards(CARDS);
 const GAME_CARDS = document.querySelectorAll('.card');
 
 GAME_CARDS.forEach(card => {
-  card.addEventListener("click", flipCard);
+  card.addEventListener("click", flipCard);  
 });
 
 function flipCard (e) {
@@ -83,7 +62,9 @@ function flipCard (e) {
 
   const target = e.target.parentElement;
   target.classList.add('flip');  
-  console.log('git is', target.dataset.card);
+  console.log('cat is', target.dataset.card);
+
+  userCount++;  
 
   if (target === firstCard) return
 
@@ -94,16 +75,16 @@ function flipCard (e) {
     hasFlipedCard = false;
     secondCard = target;
 
-    compareDataset();
-  }
+    compareCardsDataset();
+  }  
 }
 
-const compareDataset = () => {
+const compareCardsDataset = () => {
   if(firstCard.dataset.card === secondCard.dataset.card) {
     removeEvent(); 
-    hideCards();
+    hideCards();    
   } else {
-    resetCards();  
+    resetCards();    
   }
 };
 
