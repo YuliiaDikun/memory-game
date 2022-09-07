@@ -117,9 +117,9 @@ h6 {
   transform: rotateY(180deg);
 }
 
-.card:active {
-  transform: scale(0.95);
-  transition: transform 0.3s;
+.card.hide {
+  opacity: 0;
+  user-select: none;
 }
 
 .front, .back {
@@ -134,9 +134,14 @@ h6 {
 
 .front {
   transform: rotateY(180deg);
+  object-fit: contain;
 }
 
 .back {
   z-index: 2;
   transform: rotateY(0deg);
+}
+
+.footer {
+ height: 50px;
 }
