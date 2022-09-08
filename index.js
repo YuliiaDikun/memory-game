@@ -51,63 +51,58 @@ function createCards (myCards) {
 
 createCards(CARDS);
 
-const GAME_CARDS = document.querySelectorAll('.card');
+function flipCard ({target}) {
 
-GAME_CARDS.forEach(card => {
-  card.addEventListener("click", flipCard);  
-});
+  const selectedCard = target.parentNode;
+  console.log('selected card', selectedCard);
+    
+    if (boardLocked || selectedCard === firstCard) return
 
-function flipCard (e) {
-  if (boardLocked) return
+    
+    selectedCard.classList.add('flip');  
+    console.log('cat is', selectedCard.dataset.card);
+    
+    userCount++;  
 
-  const target = e.target.parentElement;
-  target.classList.add('flip');  
-  console.log('cat is', target.dataset.card);
+    // const allHideCards = document.querySelectorAll('.hide');
+    //     console.log(allHideCards);      
+    // if (allHideCards.length === 12) {
+    //   setTimeout( () => {
+    //     createCards(CARDS);
+    //   }, 500);
+    // } 
 
-  userCount++;  
+    if (!hasFlipedCard) {
+      hasFlipedCard = true;
+      firstCard = selectedCard;
+    } else {
+      hasFlipedCard = false;
+      secondCard = selectedCard;
 
-  if (target === firstCard) return
+      if (firstCard.dataset.card === secondCard.dataset.card) {
+        firstCard.removeEventListener("click", flipCard);
+        secondCard.removeEventListener("click", flipCard);
 
-  if (!hasFlipedCard) {
-    hasFlipedCard = true;
-    firstCard = target;
-  } else {
-    hasFlipedCard = false;
-    secondCard = target;
+        setTimeout( () => {
+          firstCard.classList.remove('flip');
+          secondCard.classList.remove('flip');
+          firstCard.classList.add('hide');
+          secondCard.classList.add('hide');
+        }, 500);    
+      } else {
+        boardLocked = true;
 
-    compareCardsDataset();
+        setTimeout(() => {
+          firstCard.removeEventListener("click", flipCard);
+          secondCard.removeEventListener("click", flipCard);
+          firstCard.classList.remove('flip');
+          secondCard.classList.remove('flip');
+          boardLocked = false;
+        }, 500);        
+      }    
+    }  
   }  
-}
 
-const compareCardsDataset = () => {
-  if(firstCard.dataset.card === secondCard.dataset.card) {
-    removeEvent(); 
-    hideCards();    
-  } else {
-    resetCards();    
-  }
-};
 
-const removeEvent = () => {
-  firstCard.removeEventListener("click", flipCard);
-  secondCard.removeEventListener("click", flipCard);
-};
+GAME_FIELD.addEventListener("click", flipCard);  
 
-const hideCards = () => {  
-  setTimeout( () => {
-    firstCard.classList.remove('flip');
-    secondCard.classList.remove('flip');
-    firstCard.classList.add('hide');
-    secondCard.classList.add('hide');
-  }, 500);
-  
-};
-
-const resetCards = () => {
-  boardLocked = true;
-    setTimeout(() => {
-      firstCard.classList.remove('flip');
-      secondCard.classList.remove('flip');
-      boardLocked = false;
-    }, 500);
-};
