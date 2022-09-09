@@ -28,6 +28,10 @@ const CARDS = [
 ];
 
 const GAME_FIELD = document.querySelector('.game');
+const OVERLAY = document.querySelector('.overlay');
+const MODAL = document.querySelector('.modal');
+const MODAL_CLOSE = document.querySelector('.modal__close');
+
 let hasFlipedCard = false;
 let boardLocked = false;
 let firstCard = null;
@@ -98,16 +102,14 @@ function flipCard ({target}) {
           secondCard.style.pointerEvents = 'none';
 
           const HIDE_CARDS = document.querySelectorAll('div.card.hide');
-          console.log(HIDE_CARDS);
+          
           if (HIDE_CARDS.length === 12) {
-            alert('YOU WIN!!!');
+            OVERLAY.style.display = 'block';
             createCards(CARDS); 
-            console.log('this is game 2');
+            
             setTimeout(() => {
               openCards();        
-            }, 300);
-            
-            
+            }, 300);            
           }
         }, 500);         
       } else {
@@ -123,6 +125,5 @@ function flipCard ({target}) {
     }    
   }  
 }  
-
 
 GAME_FIELD.addEventListener("click", flipCard); 
