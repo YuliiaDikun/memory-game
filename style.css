@@ -101,6 +101,9 @@ h6 {
   display: flex;
   flex-flow: row wrap;
   perspective: 1000px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 
 .card {
@@ -118,8 +121,7 @@ h6 {
 }
 
 .card.hide {
-  opacity: 0;
-  user-select: none;
+  opacity: 0;  
 }
 
 .front, .back {
@@ -129,7 +131,7 @@ h6 {
   padding: 10px;
   background-color: #fff;
   border-radius: 5px;
-  backface-visibility: hidden;
+  backface-visibility: hidden;  
 }
 
 .front {
