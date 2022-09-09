@@ -51,9 +51,8 @@ function createCards (myCards) {
 
 createCards(CARDS);
 
-const MY_CARDS = document.querySelectorAll('.card');
-
 function openCards () {  
+  const MY_CARDS = document.querySelectorAll('.card');
   MY_CARDS.forEach(card => card.classList.add('flip'));
 
   MY_CARDS.forEach((card, i) => {
@@ -97,7 +96,17 @@ function flipCard ({target}) {
           secondCard.classList.add('hide');
           firstCard.style.pointerEvents = 'none';
           secondCard.style.pointerEvents = 'none';
-        }, 500);    
+
+          const HIDE_CARDS = document.querySelectorAll('div.card.hide');
+          console.log(HIDE_CARDS);
+          if (HIDE_CARDS.length === 12) {
+            setTimeout(() => {
+              createCards(CARDS);              
+            }, 300);
+            console.log('this is game 2');
+            openCards();
+          }
+        }, 500);         
       } else {
         boardLocked = true;
 
@@ -114,19 +123,3 @@ function flipCard ({target}) {
 
 
 GAME_FIELD.addEventListener("click", flipCard); 
-
-const HIDE_CARDS = document.querySelectorAll('div.hide');
-if (HIDE_CARDS.length === 12) {
-  createCards(CARDS);
-}
-
-// const allHideCards = document.querySelectorAll('.hide');
-
-// const resetGame = () => {
-//   if (userCount === 12) {
-//     setTimeout( () => {
-//       createCards(CARDS);
-//     }, 500);
-//   }
-// };
-    
