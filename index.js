@@ -29,7 +29,7 @@ const CARDS = [
 
 const GAME_FIELD = document.querySelector('.game');
 const OVERLAY = document.querySelector('.overlay');
-const MODAL = document.querySelector('.modal');
+const MODAL = document.querySelector('#win');
 const MODAL_CLOSE = document.querySelector('.modal__close');
 
 let hasFlipedCard = false;
@@ -68,6 +68,19 @@ function openCards () {
 
 openCards();
 
+function showModal () {
+  OVERLAY.style.display = 'block';
+  MODAL.style.display = 'block';
+}
+
+function closeModal () {
+  OVERLAY.style.display = 'none';
+  MODAL.style.display = 'none';
+}
+
+MODAL_CLOSE.addEventListener('click', closeModal);
+OVERLAY.addEventListener('click', closeModal);
+
 
 function flipCard ({target}) {
 
@@ -104,7 +117,7 @@ function flipCard ({target}) {
           const HIDE_CARDS = document.querySelectorAll('div.card.hide');
           
           if (HIDE_CARDS.length === 12) {
-            OVERLAY.style.display = 'block';
+            showModal ();            
             createCards(CARDS); 
             
             setTimeout(() => {
