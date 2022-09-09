@@ -51,26 +51,34 @@ function createCards (myCards) {
 
 createCards(CARDS);
 
+const MY_CARDS = document.querySelectorAll('.card');
+console.log(MY_CARDS);
+
+function openCards () {  
+  MY_CARDS.forEach(card => card.classList.add('flip'));
+
+  MY_CARDS.forEach((card, i) => {
+    setTimeout(() => {    
+    card.classList.remove('flip');
+    }, 500 * (i+1));
+  }); 
+}
+
+openCards();
+
+
 function flipCard ({target}) {
 
   const selectedCard = target.parentNode;
   console.log('selected card', selectedCard);
     
-    if (boardLocked || selectedCard === firstCard) return
+    if (boardLocked) return
 
     
     selectedCard.classList.add('flip');  
-    console.log('cat is', selectedCard.dataset.card);
+    console.log('cat is', selectedCard.dataset.card);    
     
-    userCount++;  
-
-    // const allHideCards = document.querySelectorAll('.hide');
-    //     console.log(allHideCards);      
-    // if (allHideCards.length === 12) {
-    //   setTimeout( () => {
-    //     createCards(CARDS);
-    //   }, 500);
-    // } 
+    if (selectedCard === firstCard) return
 
     if (!hasFlipedCard) {
       hasFlipedCard = true;
@@ -82,12 +90,13 @@ function flipCard ({target}) {
       if (firstCard.dataset.card === secondCard.dataset.card) {
         firstCard.removeEventListener("click", flipCard);
         secondCard.removeEventListener("click", flipCard);
-
+       
         setTimeout( () => {
           firstCard.classList.remove('flip');
           secondCard.classList.remove('flip');
           firstCard.classList.add('hide');
           secondCard.classList.add('hide');
+          
         }, 500);    
       } else {
         boardLocked = true;
@@ -106,3 +115,13 @@ function flipCard ({target}) {
 
 GAME_FIELD.addEventListener("click", flipCard);  
 
+// const allHideCards = document.querySelectorAll('.hide');
+
+// const resetGame = () => {
+//   if (userCount === 12) {
+//     setTimeout( () => {
+//       createCards(CARDS);
+//     }, 500);
+//   }
+// };
+    
