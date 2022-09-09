@@ -227,9 +227,11 @@ h6 {
     margin-top: 50px;
     font-size: 30px;
   }
+  
   .menu__body {
     margin-top: 15px;
-  }  
+  } 
+
   .game {
     width: 550px;
     height: 750px;
@@ -248,14 +250,17 @@ h6 {
     margin-top: 30px;
     font-size: 25px;
   }
+
   .subtitle {    
     padding-top: 10px;
     font-size: 18px;
     
   }
+
   .menu__body {
     margin-top: 10px;
   } 
+
   .menu__link {    
     width: 100px;
     height: 40px; 
@@ -266,12 +271,18 @@ h6 {
   .menu__link:hover {
     width: 100px;    
   } 
+
   .game {
     width: 300px;
     height: 300px;
   }
+
   .card {
     width: calc(33% - 10px);
     height: calc(25% - 10px); 
+  }
+
+  .modal {   
+    width: 280px;    
   }
 }
