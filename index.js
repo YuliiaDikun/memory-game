@@ -45,7 +45,7 @@ function createCards (myCards) {
       </div>`
   )
   .join('');
-
+  GAME_FIELD.innerHTML = ``;
   GAME_FIELD.innerHTML = cards;
 }
 
@@ -100,11 +100,14 @@ function flipCard ({target}) {
           const HIDE_CARDS = document.querySelectorAll('div.card.hide');
           console.log(HIDE_CARDS);
           if (HIDE_CARDS.length === 12) {
-            setTimeout(() => {
-              createCards(CARDS);              
-            }, 300);
+            alert('YOU WIN!!!');
+            createCards(CARDS); 
             console.log('this is game 2');
-            openCards();
+            setTimeout(() => {
+              openCards();        
+            }, 300);
+            
+            
           }
         }, 500);         
       } else {
