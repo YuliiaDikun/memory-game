@@ -4,32 +4,40 @@
 	border: 0px;
   font-family: 'Roboto Condensed', sans-serif;
 }
+
 *,
 *:before,
 *:after {
   box-sizing: border-box;
 }
+
 button {
 	cursor: pointer;
 	color: inherit;
 	background-color: inherit;
 }
+
 a {
 	color: inherit;
 }
+
 a:link,
 a:visited {
 	text-decoration: none;
 }
+
 a:hover {
 	text-decoration: none;
 }
+
 ul li {
 	list-style: none;
 }
+
 img {
 	vertical-align: top;
 }
+
 h1,
 h2,
 h3,
@@ -39,6 +47,7 @@ h6 {
 	font-weight: inherit;
 	font-size: inherit;
 }
+
 .wrapper {
   height: 100vh;
   display: flex;
@@ -51,12 +60,21 @@ h6 {
 .wrapper > main {
     flex: 1 1 auto;
 }
+
 .title {
   margin-top: 100px;
   text-align: center;
   font-size: 50px;
   font-weight: 700;
 }
+
+.subtitle {
+  text-align: center;
+  padding-top: 15px;
+  font-size: 27px;
+  color: #23B123;
+}
+
 .header__container {
   max-width: 1200px;
   margin: 0 auto;
@@ -109,8 +127,7 @@ h6 {
 .card {
   width: calc(25% - 10px);
   height: calc(33.333% - 10px);  
-  margin: 5px;
-  transform: scale(1);
+  margin: 5px;  
   position: relative;
   transition: transform 0.5s;
   transform-style: preserve-3d;
@@ -151,4 +168,5 @@ h6 {
 .footer_title {
   padding-top: 15px;
   text-align: center;
+  color: #23B123;
 }
