@@ -147,3 +147,8 @@ h6 {
 .footer {
  height: 50px;
 }
+
+.footer_title {
+  padding-top: 15px;
+  text-align: center;
+}
