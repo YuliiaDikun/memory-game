@@ -78,6 +78,7 @@ h6 {
 .header__container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 10px;
 }
 
 .menu__body  {
@@ -87,11 +88,12 @@ h6 {
 
 .menu__list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   text-align: center;
   align-items: center;
   justify-content: center;
-  gap: 25px;
+  justify-items: center;
+  gap: 15px;
 }
 
 .menu__link {  
@@ -116,6 +118,7 @@ h6 {
   height: 650px;
   margin: auto;
   margin-top: 15px;
+  padding: 0 10px;
   display: flex;
   flex-flow: row wrap;
   perspective: 1000px;
@@ -214,6 +217,61 @@ h6 {
   text-align: center;
   color: #23B123;
 }
+
 #win {
   display: none;
+}
+
+@media (max-width: 768px) {
+  .title {
+    margin-top: 50px;
+    font-size: 30px;
+  }
+  .menu__body {
+    margin-top: 15px;
+  }  
+  .game {
+    width: 550px;
+    height: 750px;
+  }
+}
+
+@media (max-width: 550px) {
+  .game {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 425px) {
+  .title {
+    margin-top: 30px;
+    font-size: 25px;
+  }
+  .subtitle {    
+    padding-top: 10px;
+    font-size: 18px;
+    
+  }
+  .menu__body {
+    margin-top: 10px;
+  } 
+  .menu__link {    
+    width: 100px;
+    height: 40px; 
+    font-size: 16px; 
+    border: 1px solid #23B123;  
+  }
+  
+  .menu__link:hover {
+    width: 100px;    
+  } 
+  .game {
+    width: 300px;
+    height: 300px;
+  }
+  .card {
+    width: calc(33% - 10px);
+    height: calc(25% - 10px); 
+  }
 }
