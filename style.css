@@ -55,6 +55,7 @@ h6 {
   overflow: hidden;	
   background-color: #263238;
   color: #fff;
+  overflow: auto;
 }
 
 .wrapper > main {
@@ -192,6 +193,7 @@ h6 {
   min-height: 140px;
   background: #F2F2F2;
   padding: 38px 40px 40px 40px;
+  z-index: 2;
 }
 
 .modal__close {
