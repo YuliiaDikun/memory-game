@@ -55,14 +55,21 @@ function createCards (myCards) {
 
 createCards(CARDS);
 
-function openCards () {  
+function openCards () { 
+  boardLocked = true; 
   const MY_CARDS = document.querySelectorAll('.card');
-  MY_CARDS.forEach(card => card.classList.add('flip'));
+  MY_CARDS.forEach(card => {
+    card.classList.add('flip');    
+  });
 
   MY_CARDS.forEach((card, i) => {
     setTimeout(() => {    
-    card.classList.remove('flip');
+    card.classList.remove('flip');    
     }, 500 * (i+1));
+
+    setTimeout(() => {
+      boardLocked = false;
+    }, 6500);
   }); 
 }
 
@@ -85,29 +92,31 @@ function closeModal () {
 OVERLAY.addEventListener('click', closeModal);
 MODAL_CLOSE.addEventListener('click', closeModal);
 
-function flipCards ({target}) {
-  if (target.closest('img')) {
-    const selectedCard = target.parentNode;
-    if (boardLocked) return
-    
-    selectedCard.classList.add('flip');    
-    
-    if (selectedCard === firstCard) return
+function flipCards ({target}) {  
+  if (!target.closest('.card')) return 
+  
+  const selectedCard = target.parentNode;
+  
+  if (boardLocked) return
+  
+  selectedCard.classList.add('flip');    
+  
+  if (selectedCard === firstCard) return
 
-    if (!hasFlipedCard) {
-      hasFlipedCard = true;
-      firstCard = selectedCard;
+  if (!hasFlipedCard) {
+    hasFlipedCard = true;
+    firstCard = selectedCard;
+  } else {
+    hasFlipedCard = false;
+    secondCard = selectedCard;
+
+    if (firstCard.dataset.card === secondCard.dataset.card) {
+      checkedPairs();
     } else {
-      hasFlipedCard = false;
-      secondCard = selectedCard;
-
-      if (firstCard.dataset.card === secondCard.dataset.card) {
-        checkedPairs();
-      } else {
-        restartTurn();                
-      }    
-    }  
-  } 
+      restartTurn();                
+    }    
+  }  
+  
 }  
 
 const checkedPairs = () => {
