@@ -76,22 +76,21 @@ function showModal () {
 function closeModal () {
   OVERLAY.style.display = 'none';
   MODAL.style.display = 'none';
+  setTimeout(() => {
+    createCards(CARDS);
+    openCards();        
+  }, 300);
 }
 
-MODAL_CLOSE.addEventListener('click', closeModal);
 OVERLAY.addEventListener('click', closeModal);
+MODAL_CLOSE.addEventListener('click', closeModal);
 
-
-function flipCard ({target}) {
-
-  const selectedCard = target.parentNode;
-  console.log('selected card', selectedCard);
-    
+function flipCards ({target}) {
+  if (target.closest('img')) {
+    const selectedCard = target.parentNode;
     if (boardLocked) return
-
     
-    selectedCard.classList.add('flip');  
-    console.log('cat is', selectedCard.dataset.card);    
+    selectedCard.classList.add('flip');    
     
     if (selectedCard === firstCard) return
 
@@ -103,40 +102,47 @@ function flipCard ({target}) {
       secondCard = selectedCard;
 
       if (firstCard.dataset.card === secondCard.dataset.card) {
-        firstCard.removeEventListener('click', flipCard);
-        secondCard.removeEventListener('click', flipCard);
-       
-        setTimeout( () => {
-          firstCard.classList.remove('flip');
-          secondCard.classList.remove('flip');
-          firstCard.classList.add('hide');
-          secondCard.classList.add('hide');
-          firstCard.style.pointerEvents = 'none';
-          secondCard.style.pointerEvents = 'none';
-
-          const HIDE_CARDS = document.querySelectorAll('div.card.hide');
-          
-          if (HIDE_CARDS.length === 12) {
-            showModal ();            
-            createCards(CARDS); 
-            
-            setTimeout(() => {
-              openCards();        
-            }, 300);            
-          }
-        }, 500);         
+        checkedPairs();
       } else {
-        boardLocked = true;
-
-        setTimeout(() => {
-          firstCard.removeEventListener('click', flipCard);
-          secondCard.removeEventListener('click', flipCard);
-          firstCard.classList.remove('flip');
-          secondCard.classList.remove('flip');
-          boardLocked = false;
-      }, 500);        
-    }    
-  }  
+        restartTurn();                
+      }    
+    }  
+  } 
 }  
 
-GAME_FIELD.addEventListener("click", flipCard); 
+const checkedPairs = () => {
+  firstCard.removeEventListener('click', flipCards);
+  secondCard.removeEventListener('click', flipCards);
+  
+  setTimeout( () => {
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
+    firstCard.classList.add('hide');
+    secondCard.classList.add('hide');
+    firstCard.style.pointerEvents = 'none';
+    secondCard.style.pointerEvents = 'none';
+    congratsWinner();    
+  }, 500);         
+};
+
+const congratsWinner = () => {
+  const HIDE_CARDS = document.querySelectorAll('div.card.hide');
+    
+  if (HIDE_CARDS.length === 12) {
+    showModal ();                
+  }
+};
+
+const restartTurn = () => {
+  boardLocked = true;
+
+  setTimeout(() => {
+    firstCard.removeEventListener('click', flipCards);
+    secondCard.removeEventListener('click', flipCards);
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
+    boardLocked = false;
+  }, 500);
+};
+
+GAME_FIELD.addEventListener('click', flipCards); 
