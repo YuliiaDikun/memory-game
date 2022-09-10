@@ -143,10 +143,10 @@ const congratsWinner = () => {
 
 const restartTurn = () => {
   boardLocked = true;
-
+  firstCard.removeEventListener('click', flipCards);
+  secondCard.removeEventListener('click', flipCards);
   setTimeout(() => {
-    firstCard.removeEventListener('click', flipCards);
-    secondCard.removeEventListener('click', flipCards);
+    
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
     boardLocked = false;
