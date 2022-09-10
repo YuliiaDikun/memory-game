@@ -33,7 +33,7 @@ const MODAL = document.querySelector('#win');
 const MODAL_CLOSE = document.querySelector('.modal__close');
 
 let hasFlipedCard = false;
-let boardLocked = false;
+let boardLocked = true;
 let firstCard = null;
 let secondCard = null;
 let userCount = 0;
@@ -55,8 +55,7 @@ function createCards (myCards) {
 
 createCards(CARDS);
 
-function openCards () { 
-  boardLocked = true; 
+function openCards () {   
   const MY_CARDS = document.querySelectorAll('.card');
   MY_CARDS.forEach(card => {
     card.classList.add('flip');    
