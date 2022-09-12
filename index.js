@@ -29,8 +29,8 @@ const CARDS = [
 
 const GAME_FIELD = document.querySelector('.game');
 const OVERLAY = document.querySelector('.overlay');
-const MODAL = document.querySelector('#win');
-const MODAL_CLOSE = document.querySelector('.modal__close');
+const MODAL = document.querySelector('.modal');
+const MODAL_CLOSE = document.querySelector('[data-close]');
 const TIMEOUT = 500;
 
 let hasFlipedCard = false;
@@ -45,9 +45,9 @@ const defaultSettings = () => {
   secondCard = null;
 };
 
-function createCards (myCards) {
+function createCards (myCards) {   
   GAME_FIELD.innerHTML = ``;
-    
+
   const doubleCards = [...myCards, ...myCards];
   const cards = doubleCards
   .sort(() => 0.5 - Math.random())
@@ -58,13 +58,13 @@ function createCards (myCards) {
       </div>`
   )
   .join('');
- 
+  
   GAME_FIELD.innerHTML = cards;
 }
 
 function openCards () {  
   boardLocked = true; 
-  const MY_CARDS = document.querySelectorAll('.card');  
+  const MY_CARDS = document.querySelectorAll('.card'); 
   MY_CARDS.forEach(card => {
     card.classList.add('flip');    
   });
@@ -76,7 +76,7 @@ function openCards () {
   });    
   
   setTimeout(() => {
-    boardLocked = false;
+    boardLocked = false;    
   }, TIMEOUT * MY_CARDS.length); 
 }
 
@@ -85,16 +85,21 @@ function showModal () {
   MODAL.style.display = 'block';
 }
 
-function closeModal () {
+function closeModal () {  
   OVERLAY.style.display = 'none';
   MODAL.style.display = 'none';
   setTimeout(() => {
     createCards(CARDS);
     openCards();        
-  }, 300);
+  }, 300);  
 }
 
-OVERLAY.addEventListener('click', closeModal);
+OVERLAY.addEventListener('click', (e) => {
+  if (e.target === OVERLAY) {
+    closeModal();
+  }
+});
+
 MODAL_CLOSE.addEventListener('click', closeModal);
 
 const restartTurn = () => {
@@ -126,7 +131,7 @@ const congratsWinner = () => {
   const HIDE_CARDS = document.querySelectorAll('div.card.hide');
     
   if (HIDE_CARDS.length === 12) {
-    showModal ();                
+    showModal();                
   }
 };
 
@@ -160,5 +165,4 @@ createCards(CARDS);
 
 openCards();
 
-const allMyCards = document.querySelectorAll('.card');
-allMyCards.forEach(card => card.addEventListener('click', flipCards)); 
+GAME_FIELD.addEventListener('click', flipCards);  
