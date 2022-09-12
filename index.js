@@ -33,10 +33,17 @@ const MODAL = document.querySelector('#win');
 const MODAL_CLOSE = document.querySelector('.modal__close');
 
 let hasFlipedCard = false;
-let boardLocked = true;
+let boardLocked = false;
 let firstCard = null;
 let secondCard = null;
 let userCount = 0;
+
+const defaultSettings = () => {
+  hasFlipedCard = false;
+  boardLocked = false;
+  firstCard = null;
+  secondCard = null;
+};
 
 function createCards (myCards) {  
   const doubleCards = [...myCards, ...myCards];
@@ -55,7 +62,8 @@ function createCards (myCards) {
 
 createCards(CARDS);
 
-function openCards () {   
+function openCards () {  
+  boardLocked = true; 
   const MY_CARDS = document.querySelectorAll('.card');
   MY_CARDS.forEach(card => {
     card.classList.add('flip');    
@@ -109,27 +117,31 @@ function flipCards ({target}) {
     hasFlipedCard = false;
     secondCard = selectedCard;
 
-    if (firstCard.dataset.card === secondCard.dataset.card) {
-      checkedPairs();
-    } else {
-      restartTurn();                
-    }    
-  }  
-  
+  checkedWinner();   
+  }    
 }  
+
+const checkedWinner = () => {
+  if (firstCard.dataset.card === secondCard.dataset.card) {
+    checkedPairs();
+  } else {
+    restartTurn();                
+  }   
+};
 
 const checkedPairs = () => {
   firstCard.removeEventListener('click', flipCards);
   secondCard.removeEventListener('click', flipCards);
-  
+  boardLocked = true;
   setTimeout( () => {
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
     firstCard.classList.add('hide');
     secondCard.classList.add('hide');
     firstCard.style.pointerEvents = 'none';
-    secondCard.style.pointerEvents = 'none';
-    congratsWinner();    
+    secondCard.style.pointerEvents = 'none'; 
+    defaultSettings();  
+    congratsWinner();     
   }, 500);         
 };
 
@@ -142,14 +154,11 @@ const congratsWinner = () => {
 };
 
 const restartTurn = () => {
-  boardLocked = true;
-  firstCard.removeEventListener('click', flipCards);
-  secondCard.removeEventListener('click', flipCards);
-  setTimeout(() => {
-    
+  boardLocked = true;  
+  setTimeout(() => {    
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
-    boardLocked = false;
+    defaultSettings();
   }, 500);
 };
 
