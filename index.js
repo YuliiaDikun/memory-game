@@ -31,12 +31,12 @@ const GAME_FIELD = document.querySelector('.game');
 const OVERLAY = document.querySelector('.overlay');
 const MODAL = document.querySelector('#win');
 const MODAL_CLOSE = document.querySelector('.modal__close');
+const TIMEOUT = 500;
 
 let hasFlipedCard = false;
 let boardLocked = false;
 let firstCard = null;
 let secondCard = null;
-let userCount = 0;
 
 const defaultSettings = () => {
   hasFlipedCard = false;
@@ -45,7 +45,9 @@ const defaultSettings = () => {
   secondCard = null;
 };
 
-function createCards (myCards) {  
+function createCards (myCards) {
+  GAME_FIELD.innerHTML = ``;
+    
   const doubleCards = [...myCards, ...myCards];
   const cards = doubleCards
   .sort(() => 0.5 - Math.random())
@@ -56,15 +58,13 @@ function createCards (myCards) {
       </div>`
   )
   .join('');
-  GAME_FIELD.innerHTML = ``;
+ 
   GAME_FIELD.innerHTML = cards;
 }
 
-createCards(CARDS);
-
 function openCards () {  
   boardLocked = true; 
-  const MY_CARDS = document.querySelectorAll('.card');
+  const MY_CARDS = document.querySelectorAll('.card');  
   MY_CARDS.forEach(card => {
     card.classList.add('flip');    
   });
@@ -72,15 +72,13 @@ function openCards () {
   MY_CARDS.forEach((card, i) => {
     setTimeout(() => {    
     card.classList.remove('flip');    
-    }, 500 * (i+1));
-
-    setTimeout(() => {
-      boardLocked = false;
-    }, 6500);
-  }); 
+    }, TIMEOUT * (i+1));
+  });    
+  
+  setTimeout(() => {
+    boardLocked = false;
+  }, TIMEOUT * MY_CARDS.length); 
 }
-
-openCards();
 
 function showModal () {
   OVERLAY.style.display = 'block';
@@ -99,12 +97,49 @@ function closeModal () {
 OVERLAY.addEventListener('click', closeModal);
 MODAL_CLOSE.addEventListener('click', closeModal);
 
+const restartTurn = () => {
+  boardLocked = true;  
+  setTimeout(() => {    
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
+    defaultSettings();
+  }, TIMEOUT);
+};
+
+const checkedPairs = () => {
+  firstCard.removeEventListener('click', flipCards);
+  secondCard.removeEventListener('click', flipCards);
+  boardLocked = true;
+  setTimeout( () => {
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
+    firstCard.classList.add('hide');
+    secondCard.classList.add('hide');
+    firstCard.style.pointerEvents = 'none';
+    secondCard.style.pointerEvents = 'none'; 
+    defaultSettings();  
+    congratsWinner();     
+  }, TIMEOUT);         
+};
+
+const congratsWinner = () => {
+  const HIDE_CARDS = document.querySelectorAll('div.card.hide');
+    
+  if (HIDE_CARDS.length === 12) {
+    showModal ();                
+  }
+};
+
+const checkedWinner = () => {
+  firstCard.dataset.card === secondCard.dataset.card 
+  ? checkedPairs() 
+  : restartTurn();   
+};
+
 function flipCards ({target}) {  
-  if (!target.closest('.card')) return 
+  if (!target.closest('.card') || boardLocked) return 
   
-  const selectedCard = target.parentNode;
-  
-  if (boardLocked) return
+  const selectedCard = target.parentNode;  
   
   selectedCard.classList.add('flip');    
   
@@ -121,45 +156,9 @@ function flipCards ({target}) {
   }    
 }  
 
-const checkedWinner = () => {
-  if (firstCard.dataset.card === secondCard.dataset.card) {
-    checkedPairs();
-  } else {
-    restartTurn();                
-  }   
-};
+createCards(CARDS);
 
-const checkedPairs = () => {
-  firstCard.removeEventListener('click', flipCards);
-  secondCard.removeEventListener('click', flipCards);
-  boardLocked = true;
-  setTimeout( () => {
-    firstCard.classList.remove('flip');
-    secondCard.classList.remove('flip');
-    firstCard.classList.add('hide');
-    secondCard.classList.add('hide');
-    firstCard.style.pointerEvents = 'none';
-    secondCard.style.pointerEvents = 'none'; 
-    defaultSettings();  
-    congratsWinner();     
-  }, 500);         
-};
+openCards();
 
-const congratsWinner = () => {
-  const HIDE_CARDS = document.querySelectorAll('div.card.hide');
-    
-  if (HIDE_CARDS.length === 12) {
-    showModal ();                
-  }
-};
-
-const restartTurn = () => {
-  boardLocked = true;  
-  setTimeout(() => {    
-    firstCard.classList.remove('flip');
-    secondCard.classList.remove('flip');
-    defaultSettings();
-  }, 500);
-};
-
-GAME_FIELD.addEventListener('click', flipCards); 
+const allMyCards = document.querySelectorAll('.card');
+allMyCards.forEach(card => card.addEventListener('click', flipCards)); 
