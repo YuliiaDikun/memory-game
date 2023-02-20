@@ -30,18 +30,39 @@ const OVERLAY = document.querySelector(".overlay");
 const MODAL = document.querySelector(".modal");
 const MODAL_CLOSE = document.querySelector("[data-close]");
 const spanEl = document.querySelector(".user_moves");
+const timer = document.querySelector(".time");
 const TIMEOUT = 500;
 let hasFlipedCard = false;
+let isGameStarted = false;
 let boardLocked = false;
 let firstCard;
 let secondCard;
 let score = 0;
+let time = '';
+let timerId;
+let seconds = 0;
+let minutes = 0;
 const defaultSettings = () => {
     hasFlipedCard = false;
     boardLocked = false;
     firstCard = null;
     secondCard = null;
 };
+function timerMarkup(time) {
+    return time < 10 ? "0" + time : String(time);
+}
+function updateTime() {
+    if (isGameStarted) {
+        seconds++;
+        if (seconds === 60) {
+            minutes++;
+            seconds = 0;
+        }
+        const userTime = `${timerMarkup(minutes)}:${timerMarkup(seconds)}`;
+        timer.textContent = userTime;
+        time = userTime;
+    }
+}
 function createCards(myCards) {
     GAME_FIELD.innerHTML = ``;
     const doubleCards = [...myCards, ...myCards];
@@ -67,6 +88,8 @@ function openCards() {
     });
     setTimeout(() => {
         boardLocked = false;
+        isGameStarted = true;
+        timerId = setInterval(updateTime, 1000);
     }, TIMEOUT * MY_CARDS.length);
 }
 function showModal() {
@@ -118,9 +141,12 @@ const checkedPairs = () => {
 const congratsWinner = () => {
     const HIDE_CARDS = document.querySelectorAll("div.card.hide");
     if (HIDE_CARDS.length === 12) {
+        isGameStarted = false;
+        clearInterval(timerId);
+        timer.innerText = "00:00";
         spanEl.innerText = String(score);
         showModal();
-        console.log(score);
+        console.log(time);
     }
 };
 const checkedWinner = () => {

@@ -37,13 +37,21 @@ const OVERLAY = document.querySelector(".overlay") as HTMLDivElement;
 const MODAL = document.querySelector(".modal") as HTMLDivElement;
 const MODAL_CLOSE = document.querySelector("[data-close]") as HTMLDivElement;
 const spanEl = document.querySelector(".user_moves") as HTMLSpanElement;
+const timer = document.querySelector(".time") as HTMLSpanElement;
 const TIMEOUT = 500;
 
 let hasFlipedCard: boolean = false;
+let isGameStarted: boolean = false;
 let boardLocked = false;
 let firstCard: HTMLElement | null;
 let secondCard: HTMLElement | null;
+
 let score: number = 0;
+
+let time: string = '';
+let timerId: number;
+let seconds: number = 0;
+let minutes: number = 0;
 
 const defaultSettings = (): void => {
   hasFlipedCard = false;
@@ -51,6 +59,23 @@ const defaultSettings = (): void => {
   firstCard = null;
   secondCard = null;
 };
+
+function timerMarkup(time: number): string {
+  return time < 10 ? "0" + time : String(time);
+}
+
+function updateTime(): void {
+  if (isGameStarted) {
+    seconds++;
+    if (seconds === 60) {
+      minutes++;
+      seconds = 0;
+      }
+      const userTime:string = `${timerMarkup(minutes)}:${timerMarkup(seconds)}`;
+      timer.textContent = userTime;
+      time = userTime;
+  }
+}
 
 function createCards(myCards: ICards): void {
   GAME_FIELD.innerHTML = ``;
@@ -87,6 +112,8 @@ function openCards() {
 
   setTimeout(() => {
     boardLocked = false;
+    isGameStarted = true;
+    timerId = setInterval(updateTime, 1000);
   }, TIMEOUT * MY_CARDS.length);
 }
 
@@ -149,9 +176,12 @@ const congratsWinner = () => {
   ) as NodeListOf<HTMLElement>;
 
   if (HIDE_CARDS.length === 12) {
+    isGameStarted = false;
+    clearInterval(timerId);
+    timer.innerText = "00:00";
     spanEl.innerText = String(score);
     showModal();
-    console.log(score);
+    console.log(time);
   }
 };
 
