@@ -29,7 +29,8 @@ const GAME_FIELD = document.querySelector(".game");
 const OVERLAY = document.querySelector(".overlay");
 const MODAL = document.querySelector(".modal");
 const MODAL_CLOSE = document.querySelector("[data-close]");
-const spanEl = document.querySelector(".user_moves");
+const userMoves = document.querySelector(".user_moves");
+const userTime = document.querySelector(".user_time");
 const timer = document.querySelector(".time");
 const TIMEOUT = 500;
 let hasFlipedCard = false;
@@ -38,7 +39,7 @@ let boardLocked = false;
 let firstCard;
 let secondCard;
 let score = 0;
-let time = '';
+let time = "";
 let timerId;
 let seconds = 0;
 let minutes = 0;
@@ -144,9 +145,10 @@ const congratsWinner = () => {
         isGameStarted = false;
         clearInterval(timerId);
         timer.innerText = "00:00";
-        spanEl.innerText = String(score);
+        const userText = minutes > 0 ? `${time} minutes` : `${time} seconds`;
+        userMoves.innerText = String(score);
+        userTime.innerText = userText;
         showModal();
-        console.log(time);
     }
 };
 const checkedWinner = () => {

@@ -36,7 +36,8 @@ const GAME_FIELD = document.querySelector(".game") as HTMLElement;
 const OVERLAY = document.querySelector(".overlay") as HTMLDivElement;
 const MODAL = document.querySelector(".modal") as HTMLDivElement;
 const MODAL_CLOSE = document.querySelector("[data-close]") as HTMLDivElement;
-const spanEl = document.querySelector(".user_moves") as HTMLSpanElement;
+const userMoves = document.querySelector(".user_moves") as HTMLSpanElement;
+const userTime = document.querySelector(".user_time") as HTMLSpanElement;
 const timer = document.querySelector(".time") as HTMLSpanElement;
 const TIMEOUT = 500;
 
@@ -48,7 +49,7 @@ let secondCard: HTMLElement | null;
 
 let score: number = 0;
 
-let time: string = '';
+let time: string = "";
 let timerId: number;
 let seconds: number = 0;
 let minutes: number = 0;
@@ -70,10 +71,10 @@ function updateTime(): void {
     if (seconds === 60) {
       minutes++;
       seconds = 0;
-      }
-      const userTime:string = `${timerMarkup(minutes)}:${timerMarkup(seconds)}`;
-      timer.textContent = userTime;
-      time = userTime;
+    }
+    const userTime: string = `${timerMarkup(minutes)}:${timerMarkup(seconds)}`;
+    timer.textContent = userTime;
+    time = userTime;
   }
 }
 
@@ -179,9 +180,11 @@ const congratsWinner = () => {
     isGameStarted = false;
     clearInterval(timerId);
     timer.innerText = "00:00";
-    spanEl.innerText = String(score);
+    const userText: string =
+      minutes > 0 ? `${time} minutes` : `${time} seconds`;
+    userMoves.innerText = String(score);
+    userTime.innerText = userText;
     showModal();
-    console.log(time);
   }
 };
 
