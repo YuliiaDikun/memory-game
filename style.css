@@ -66,8 +66,7 @@ h6 {
     flex: 1 1 auto;
 }
 
-.title {
-  margin-top: 100px;
+.title {  
   text-align: center;
   font-size: 50px;
   font-weight: 700;
@@ -82,7 +81,7 @@ h6 {
 
 .header__container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 24px auto;
   padding: 0 10px;
 }
 
@@ -229,6 +228,9 @@ h6 {
   font-size: 22px;
   text-align: center;
   color: #23B123;
+}
+.user_moves{
+  color: red;
 }
 
 @media (max-width: 768px) {

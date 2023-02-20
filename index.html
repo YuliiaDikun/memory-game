@@ -4,9 +4,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./assets/favicon/favicon-16x16.png"
+    />
     <link rel="mask-icon" href="./assets/favicon/favicon.ico" color="#f8d24e" />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap"
@@ -24,7 +38,10 @@
           <nav class="menu__body">
             <ul class="menu__list">
               <li class="menu__item">
-                <a href="https://github.com/YuliiaDikun" target="_blank" class="menu__link"
+                <a
+                  href="https://github.com/YuliiaDikun"
+                  target="_blank"
+                  class="menu__link"
                   >Author</a
                 >
               </li>
@@ -36,7 +53,9 @@
                   >Find more</a
                 >
               </li>
-              <li class="menu__item"><a href="" class="menu__link">Reset game</a></li>
+              <li class="menu__item">
+                <a href="" class="menu__link">Reset game</a>
+              </li>
             </ul>
           </nav>
         </div>
@@ -49,10 +68,15 @@
     <div class="overlay">
       <div class="modal">
         <div data-close class="modal__close">&times;</div>
-        <div class="modal__title">YOU WIN!</div>
+        <div class="modal__title">
+          YOU WIN IN <span class="user_moves"></span> MOVES!
+        </div>
         <div class="modal__subtitle">♥ Congrats ♥</div>
       </div>
     </div>
-    <script src="index.js"></script>
+    <script>
+      var exports = {};
+    </script>
+    <script src="js/index.js"></script>
   </body>
 </html>
